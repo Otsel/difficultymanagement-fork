@@ -1,4 +1,4 @@
-#DifficultyManagement Fork
+# DifficultyManagement Fork
 
 This repository is a fork of Difficulty Management by Author: [zmolahah](https://www.spigotmc.org/resources/authors/zmolahah.17091/)
 

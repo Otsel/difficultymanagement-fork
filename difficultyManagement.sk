@@ -1,0 +1,159 @@
+#---------------------------------------------------
+# Difficulty Management - by Veraid aka Zmolahah
+#---------------------------------------------------
+options:
+	Default Difficulty: normal #Choose the default difficulty for all players (peaceful, easy, normal, hard or hardcore)
+	Zombies Break Doors: false #True = Zombies will break doors like on hard mode, false = zombies can't break doors
+	Use Permissions: true #If true a player will need the permission node difficultymanagement.<DIF> replace <DIF> with difficulty ex: peaceful, easy, etc...
+	Require OP: false #If you don't use permissions you can set this to true. Only OP's will be able to use the /dm command
+	Permission Message: &cYou lack the permission to use this command #Customise permission message.
+	Hardcore Ban Message: &4&lGame Over #This message will be displayed to the player when they die in hardcore mode and get banned
+	Disable PVP in Peaceful: false #If your server has PVP enabled players in peaceful can not be attacked by players and can not attack players
+#---------------------------------------------------
+# Don't edit below unless you know what you are
+# doing ;)
+#---------------------------------------------------
+join:
+	{difficultymanagement::%player%} is not set:
+		set {difficultymanagement::%player%} to "{@Default Difficulty}"
+		stop
+	{difficultymanagement::%player%} is not {@Default Difficulty}
+	{@Require OP} is true:
+		player is op:
+			stop
+		else:
+			set {difficultymanagement::%player%} to "{@Default Difficulty}"
+			stop
+	{@Use Permissions} is true
+	player does not have permission "difficultymanagement.%{difficultymanagement::%player%}%"
+	set {difficultymanagement::%player%} to "{@Default Difficulty}"
+load:
+	make console execute command "difficulty hard"
+	loop all players:
+		{difficultymanagement::%loop-player%} is not set:
+			set {difficultymanagement::%loop-player%} to "{@Default Difficulty}"
+		else:
+			{difficultymanagement::%loop-player%} is not {@Default Difficulty}
+			{@Require OP} is true:
+				loop-player is op:
+					set {_pass} to true
+				else:
+					set {difficultymanagement::%loop-player%} to "{@Default Difficulty}"
+			{_pass} is not set
+			{@Use Permissions} is true
+			loop-player does not have permission "difficultymanagement.%{difficultymanagement::%loop-player%}%"
+			set {difficultymanagement::%loop-player%} to "{@Default Difficulty}"
+zombie break door:
+	{@Zombies Break Doors} is false
+	cancel event
+hunger meter change:
+	{difficultymanagement::%player%} is "peaceful"
+	cancel event
+	player's hunger is not 10
+	set player's hunger to 10
+target:
+	{difficultymanagement::%targeted entity%} is "peaceful"
+	cancel event
+damage:
+	if damage cause is starvation:
+		if {difficultymanagement::%victim%} is "peaceful":
+			cancel event
+			set victim's hunger to 10
+		if {difficultymanagement::%victim%} is "easy":
+			victim's health is below 5.5
+			cancel event
+		if {difficultymanagement::%victim%} is "normal":
+			victim's health is below 1
+			cancel event
+	attacker is set
+	{@Disable PVP in Peaceful} is true:
+		attacker is a player
+		if {difficultymanagement::%victim%} is "peaceful":
+			cancel event
+		if {difficultymanagement::%attacker%} is "peaceful":
+			cancel event
+	attacker is not a player
+	if {difficultymanagement::%victim%} is "easy":
+		set damage to damage * 0.50
+	if {difficultymanagement::%victim%} is "normal":
+		set damage to damage * 0.75
+	damage is below 0.5
+	set damage to 0.5
+death:
+	{difficultymanagement::%victim%} is "hardcore"
+	kick player due to "{@Hardcore Ban Message}"
+	ban victim
+command /difficultymanagement [<text>]:
+	aliases: dm
+	trigger:
+		player is op:
+			set {_bypass} to true
+		if arg 1 is "peaceful":
+			if {@Require OP} is true:
+				{_bypass} is not set
+				send "{@Permission Message}"
+				stop
+			if {@Use Permissions} is true:
+				player does not have permission "difficultymanagement.peaceful"
+				send "{@Permission Message}"
+				stop
+			send "&6Your difficulty has been set to &aPeaceful&6."
+			set {difficultymanagement::%player%} to "peaceful"
+		else if arg 1 is "easy":
+			if {@Require OP} is true:
+				{_bypass} is not set
+				send "{@Permission Message}"
+				stop
+			if {@Use Permissions} is true:
+				player does not have permission "difficultymanagement.easy"
+				send "{@Permission Message}"
+				stop
+			send "&6Your difficulty has been set to &2Easy&6."
+			set {difficultymanagement::%player%} to "easy"
+		else if arg 1 is "normal":
+			if {@Require OP} is true:
+				{_bypass} is not set
+				send "{@Permission Message}"
+				stop
+			if {@Use Permissions} is true:
+				player does not have permission "difficultymanagement.normal"
+				send "{@Permission Message}"
+				stop
+			send "&6Your difficulty has been set to &9Normal&6."
+			set {difficultymanagement::%player%} to "normal"
+		else if arg 1 is "hard":
+			if {@Require OP} is true:
+				{_bypass} is not set
+				send "{@Permission Message}"
+				stop
+			if {@Use Permissions} is true:
+				player does not have permission "difficultymanagement.hard"
+				send "{@Permission Message}"
+				stop
+			send "&6Your difficulty has been set to &cHard&6."
+			set {difficultymanagement::%player%} to "hard"
+		else if arg 1 is "hardcore":
+			if {@Require OP} is true:
+				{_bypass} is not set
+				send "{@Permission Message}"
+				stop
+			if {@Use Permissions} is true:
+				player does not have permission "difficultymanagement.hardcore"
+				send "{@Permission Message}"
+				stop
+			send "&6Your difficulty has been set to &4Hardcore&6."
+			set {difficultymanagement::%player%} to "hardcore"
+		else:
+			if {difficultymanagement::%player%} is "peaceful":
+				send "&6Current Difficulty: &aPeaceful"
+			else if {difficultymanagement::%player%} is "easy":
+				send "&6Current Difficulty: &2Easy"
+			else if {difficultymanagement::%player%} is "normal":
+				send "&6Current Difficulty: &9Normal"
+			else if {difficultymanagement::%player%} is "hard":
+				send "&6Current Difficulty: &cHard"
+			else if {difficultymanagement::%player%} is "hardcore":
+				send "&6Current Difficulty: &4Hardcore"
+			else:
+				set {difficultymanagement::%player%} to "{@Default Difficulty}"
+				make player execute command "/dm"

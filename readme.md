@@ -1,6 +1,7 @@
 # DifficultyManagement Fork
 
-This repository is a fork of Difficulty Management by Author: [zmolahah](https://www.spigotmc.org/resources/authors/zmolahah.17091/)
+This repository is a fork of [Difficulty Management](https://www.spigotmc.org/resources/difficulty-management.12131/) by [zmolahah](https://www.spigotmc.org/resources/authors/zmolahah.17091/)
+
 
 I am merely updating this script to work with modern versions of Minecraft and Skript.
 
@@ -63,4 +64,3 @@ Readme by zmolahah:
 > 
 > -   /difficultymanagement (or /dm) - shows your current difficulty
 > -   /difficultymanagement (or /dm) <peaceful/easy/normal/hard/hardcore> - change your difficulty
-

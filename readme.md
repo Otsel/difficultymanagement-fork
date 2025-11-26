@@ -1,4 +1,4 @@
-# DifficultyManagement Fork
+# Per-Player Difficulty Management
 
 This repository is a fork of [Difficulty Management](https://www.spigotmc.org/resources/difficulty-management.12131/) by [zmolahah](https://www.spigotmc.org/resources/authors/zmolahah.17091/). 
 I am merely updating this script to work with modern versions of Minecraft and Skript.

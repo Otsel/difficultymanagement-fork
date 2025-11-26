@@ -82,8 +82,8 @@ damage:
 	damage is below 0.5
 	set damage to 0.5
 on death of player:
-	player is "hardcore"
-	ban player due to "{@Hardcore Ban Message}"
+	{difficultymanagement::%victim%} is "hardcore"
+	ban {difficultymanagement::%victim%} due to "{@Hardcore Ban Message}"
 command /difficultymanagement [<text>]:
 	aliases: dm
 	trigger:

@@ -1,7 +1,7 @@
 #---------------------------------------------------
 # Difficulty Management- created by Veraid aka Zmolahah and updated by Otsel
 #---------------------------------------------------
-# Version 1.0.2
+# Version 1.1.0
 #---------------------------------------------------
 # Change the options below to tailor your experience
 #---------------------------------------------------
@@ -50,11 +50,10 @@ zombie break door:
 	{@Zombies Break Doors} is false
 	cancel event
 on hunger meter change:
-	player is "peaceful"
-	set hunger to 10
+	{difficultymanagement::%player%} is "peaceful"
+	cancel event
 on entity target:
-	target is a player
-	player is "peaceful"
+	{difficultymanagement::%targeted entity%} is "peaceful"
 	cancel event
 damage:
 	if damage cause is starvation:
@@ -100,7 +99,7 @@ command /difficultymanagement [<text>]:
 				stop
 			send "&6Your difficulty has been set to &aPeaceful&6."
 			set {difficultymanagement::%player%} to "peaceful"
-			set hunger to 10
+			set hunger to 20
 		else if arg 1 is "easy":
 			if {@Require OP} is true:
 				{_bypass} is not set

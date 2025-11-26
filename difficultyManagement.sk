@@ -1,5 +1,8 @@
 #---------------------------------------------------
-# Difficulty Management - by Veraid aka Zmolahah
+# Difficulty Management - created by Veraid aka Zmolahah and updated by Otsel
+#---------------------------------------------------
+#---------------------------------------------------
+# Change the options below to tailor your experience
 #---------------------------------------------------
 options:
 	Default Difficulty: normal #Choose the default difficulty for all players (peaceful, easy, normal, hard or hardcore)
@@ -10,8 +13,7 @@ options:
 	Hardcore Ban Message: &4&lGame Over #This message will be displayed to the player when they die in hardcore mode and get banned
 	Disable PVP in Peaceful: false #If your server has PVP enabled players in peaceful can not be attacked by players and can not attack players
 #---------------------------------------------------
-# Don't edit below unless you know what you are
-# doing ;)
+# Don't edit below unless you know what you are doing ;)
 #---------------------------------------------------
 join:
 	{difficultymanagement::%player%} is not set:
@@ -46,13 +48,12 @@ load:
 zombie break door:
 	{@Zombies Break Doors} is false
 	cancel event
-hunger meter change:
-	{difficultymanagement::%player%} is "peaceful"
-	cancel event
-	player's hunger is not 10
-	set player's hunger to 10
-target:
-	{difficultymanagement::%targeted entity%} is "peaceful"
+on hunger meter change:
+	player is "peaceful"
+	set hunger to 10
+on entity target:
+	target is a player
+	player is "peaceful"
 	cancel event
 damage:
 	if damage cause is starvation:
@@ -79,10 +80,9 @@ damage:
 		set damage to damage * 0.75
 	damage is below 0.5
 	set damage to 0.5
-death:
-	{difficultymanagement::%victim%} is "hardcore"
-	kick player due to "{@Hardcore Ban Message}"
-	ban victim
+on death of player:
+	player is "hardcore"
+	ban player due to "{@Hardcore Ban Message}"
 command /difficultymanagement [<text>]:
 	aliases: dm
 	trigger:
@@ -99,6 +99,7 @@ command /difficultymanagement [<text>]:
 				stop
 			send "&6Your difficulty has been set to &aPeaceful&6."
 			set {difficultymanagement::%player%} to "peaceful"
+			set hunger to 10
 		else if arg 1 is "easy":
 			if {@Require OP} is true:
 				{_bypass} is not set

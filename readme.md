@@ -34,14 +34,13 @@ I am merely updating this script to work with modern versions of Minecraft and S
 
 |  Difficulty|Mob Damage  | Hunger |Perma Death| 
 |--|--|--|--|
-| Peaceful |  Mobs ignore player| Player will not lose hunger* |❌
+| Peaceful |  Mobs ignore player| Player will not lose hunger |❌
 | Easy | 50% |Player cannot starve below 5 hearts  |❌
 | Normal | 75% | Player cannot starve below ½ heart |❌
 | Hard | 100% |  Player can starve|❌
-| Hardcore | 100% | Player can starve|✅**
+| Hardcore | 100% | Player can starve|✅*
 
-**Hunger will not degenerate, but currently does not regenerate even when eating. It is recommended to set to Peaceful on full hunger.*
-***Player is server banned upon death.*
+**Player is server banned upon death.*
 
 **Configuration:**  
 -   [default:normal] Default Difficulty - (peaceful, easy, normal, hard, hardcore) This is what new players difficulty will be set to
